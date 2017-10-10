@@ -22,7 +22,7 @@ public class GraphPractice {
      */
     public static void main(String[] args) {
         
-        int [][] graph = createAdjacencyMatrix("graph.txt");
+        int[][] graph = createAdjacencyMatrix("graph.txt");
         
     }
     
@@ -32,7 +32,7 @@ public class GraphPractice {
     //the following lines represent each
     public static int[][] createAdjacencyMatrix(String filename){
         File file = new File(filename);
-        int [][] adjacencyMatrix = null;
+        int[][] adjacencyMatrix = null;
         try {
             Scanner reader = new Scanner(file);
             int verticies = reader.nextInt();
@@ -48,5 +48,23 @@ public class GraphPractice {
             Logger.getLogger(GraphPractice.class.getName()).log(Level.SEVERE, null, ex);
         }
         return adjacencyMatrix;
+    }
+    
+    //creates a directed graph in the form of an adjacency list from a file
+    //each line represents an edge
+    //the first int is the starting vertex
+    //the second int is the ending vertex for the edge
+    public static void createAdjacencyList(String filename){
+        File file = new File(filename);
+        Scanner reader;
+        try {
+            reader = new Scanner(file);
+            while(reader.hasNext()){
+
+            }
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(GraphPractice.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
     }
 }
