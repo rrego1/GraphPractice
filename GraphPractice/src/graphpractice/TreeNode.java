@@ -12,14 +12,17 @@ package graphpractice;
 public class TreeNode {
     private int index;
     private int [] edges;
+    private int numEdges;
     
     TreeNode(){
         index = 0;
+        numEdges = 0;
         edges = new int[5];
     }
     
     TreeNode(int index){
         this.index = index;
+        numEdges = 0;
         edges = new int[5];
     }
     
@@ -39,27 +42,51 @@ public class TreeNode {
         return edges;
     }
     
-    public void addEdge(int vertex){
+    public void setNumEdges(int numEdges){
+        this.numEdges = numEdges;
+    }
+    
+    public int getNumEdges(){
+        return numEdges;
+    }
+    
+    public void addEdge(TreeNode node){
         int length = edges.length;
+        numEdges++;
         if(edges[length - 1] != 0){
             int[] newEdges = new int[length * 2];
             for(int i = 0; i < length; i++){
                 newEdges[i] = edges[i];
             }
-            newEdges[length] = vertex;
+            newEdges[length] = node.getIndex();
             edges = newEdges;
         }
         for(int i = 0; i < length; i++){
             if(edges[i] == 0){
-                edges[i] = vertex;
+                edges[i] = node.getIndex();
                 break;
             }
         }
     }
     
-    public boolean isEdge(int vertex){
+    public void removeEdge(TreeNode node){
+        int edge = -1;
+        if(this.isEdge(node)){
+            numEdges--;
+            for(int i = 0; i < edges.length; i++){
+                if(edges[i] == node.getIndex()){
+                    edge = i;
+                    break;
+                }
+            }
+            edges[edge] = edges[numEdges];
+            edges[numEdges] = 0;
+        }
+    }
+    
+    public boolean isEdge(TreeNode node){
         for(int i = 0; i < edges.length; i++){
-            if(edges[i] == vertex){
+            if(edges[i] == node.getIndex()){
                 return true;
             }else if(edges[i] == 0){
                 return false;

@@ -7,6 +7,7 @@ package graphpractice;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.util.ArrayList;
 import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -22,7 +23,7 @@ public class GraphPractice {
      */
     public static void main(String[] args) {
         
-        int[][] graph = createAdjacencyMatrix("graph.txt");
+        ArrayList<TreeNode> graph = createAdjacencyList("graph.txt");
         
     }
     
@@ -54,17 +55,35 @@ public class GraphPractice {
     //each line represents an edge
     //the first int is the starting vertex
     //the second int is the ending vertex for the edge
-    public static void createAdjacencyList(String filename){
+    public static ArrayList<TreeNode> createAdjacencyList(String filename){
         File file = new File(filename);
         Scanner reader;
+        ArrayList<TreeNode> graph = new ArrayList();
         try {
             reader = new Scanner(file);
             while(reader.hasNext()){
-
+                int origin = reader.nextInt();
+                int destination = reader.nextInt();
+                TreeNode startNode = getVertex(graph, origin);
+                TreeNode endNode = getVertex(graph, destination);
+                startNode.addEdge(endNode);
             }
         } catch (FileNotFoundException ex) {
             Logger.getLogger(GraphPractice.class.getName()).log(Level.SEVERE, null, ex);
         }
-
+        
+        return graph;
+    }
+    
+    public static TreeNode getVertex(ArrayList<TreeNode> graph, int vertex){
+        TreeNode node = null;
+        for(TreeNode treeNode : graph){
+            if(treeNode.getIndex() == vertex){
+                return treeNode;
+            }
+        }
+        node = new TreeNode(vertex);
+        graph.add(node);
+        return node;
     }
 }
