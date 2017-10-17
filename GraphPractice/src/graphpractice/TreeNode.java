@@ -10,88 +10,45 @@ package graphpractice;
  * @author reggs
  */
 public class TreeNode {
-    private int index;
-    private int [] edges;
-    private int numEdges;
+
+    private int value;
+    private TreeNode left;
+    private TreeNode right;
     
     TreeNode(){
-        index = 0;
-        numEdges = 0;
-        edges = new int[5];
+        value = -1;
+        left = null;
+        right = null;
     }
     
-    TreeNode(int index){
-        this.index = index;
-        numEdges = 0;
-        edges = new int[5];
+    TreeNode(int value){
+        this.value = value;
+        left = null;
+        right = null;
     }
-    
-    public void setIndex(int index){
-        this.index = index;
+
+    public int getValue() {
+        return value;
     }
-    
-    public int getIndex(){
-        return index;
+
+    public void setValue(int value) {
+        this.value = value;
     }
-    
-    public void setEdges(int [] edges){
-        this.edges = edges;
+
+    public TreeNode getLeft() {
+        return left;
     }
-    
-    public int[] getEdges(){
-        return edges;
+
+    public void setLeft(TreeNode left) {
+        this.left = left;
     }
-    
-    public void setNumEdges(int numEdges){
-        this.numEdges = numEdges;
+
+    public TreeNode getRight() {
+        return right;
     }
-    
-    public int getNumEdges(){
-        return numEdges;
+
+    public void setRight(TreeNode right) {
+        this.right = right;
     }
-    
-    public void addEdge(TreeNode node){
-        int length = edges.length;
-        numEdges++;
-        if(edges[length - 1] != 0){
-            int[] newEdges = new int[length * 2];
-            for(int i = 0; i < length; i++){
-                newEdges[i] = edges[i];
-            }
-            newEdges[length] = node.getIndex();
-            edges = newEdges;
-        }
-        for(int i = 0; i < length; i++){
-            if(edges[i] == 0){
-                edges[i] = node.getIndex();
-                break;
-            }
-        }
-    }
-    
-    public void removeEdge(TreeNode node){
-        int edge = -1;
-        if(this.isEdge(node)){
-            numEdges--;
-            for(int i = 0; i < edges.length; i++){
-                if(edges[i] == node.getIndex()){
-                    edge = i;
-                    break;
-                }
-            }
-            edges[edge] = edges[numEdges];
-            edges[numEdges] = 0;
-        }
-    }
-    
-    public boolean isEdge(TreeNode node){
-        for(int i = 0; i < edges.length; i++){
-            if(edges[i] == node.getIndex()){
-                return true;
-            }else if(edges[i] == 0){
-                return false;
-            }
-        }
-        return false;
-    }
+     
 }
