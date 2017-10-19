@@ -26,6 +26,8 @@ public class GraphPractice {
         //ArrayList<Node> graph = createAdjacencyList("graph.txt");
         TreeNode graph = createBinaryTree("graph.txt");
         System.out.println("max depth: " + maxDepth(graph));
+        System.out.println("num children: " + numChildren(graph));
+        System.out.println("is full: " + isFull(graph));
         
     }
     
@@ -175,15 +177,22 @@ public class GraphPractice {
     
     //checks if the binary is complete or not
     public static boolean isComplete(TreeNode root){
-        
-        
         return false;
     }
     
     //checks if the binary tree is full or not
     public static boolean isFull(TreeNode root){
-        
-        return true;
+        if(root == null){
+            return true;
+        }else if(root.getLeft() == null && root.getRight() == null){
+            return true;
+        }else{
+            if(isFull(root.getLeft()) && isFull(root.getRight())){
+                return true;
+            }else{
+                return false;
+            }
+        }
     }
     
     //finds the max depth of a tree
@@ -203,5 +212,22 @@ public class GraphPractice {
                 }
             }
         }
+    }
+    
+    //counts the number of children a node has
+    public static int numChildren(TreeNode root){
+        if(root == null){
+            return 0;
+        }else{
+            int children = 0;
+            if(root.getLeft() != null){
+                children++;
+            }
+            if(root.getRight() != null){
+                children++;
+            }
+            return children + numChildren(root.getLeft()) + numChildren(root.getRight());
+        }
+        
     }
 }
