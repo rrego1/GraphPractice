@@ -137,60 +137,40 @@ public class GraphPractice {
                 index = i;
             }
         }
-        root.setLeft(buildLeft(pre, in, 0, index));
-        root.setRight(buildRight(pre, in, 0, index));
-        return root;      
+        root.setLeft(buildChild(pre, in, 1, 0, index ));
+        root.setRight(buildChild(pre, in, 1, index, in.length));
+        return root;  
     }
     
-    public static TreeNode buildLeft(int[] pre, int[] in, int preIndex, int inIndex){
-        int pointer = preIndex;
-        while(pointer < pre.length - 2){
-            if(checkValidLocation(in, 0, inIndex, pre[pointer + 1])){
-                TreeNode node = new TreeNode(pre[pointer + 1]);
-                int newIn = -1;
-                for(int i = 0; i < inIndex; i++){
-                    if(pre[pointer + 1] == in[i]){
-                        newIn = i;
-                        break;
-                    }
-                }
-                node.setLeft(buildLeft(pre, in, pointer + 1, newIn));
-                node.setRight(buildRight(pre, in, pointer + 1, newIn));              
-                return node;
+    public static TreeNode buildChild(int[] pre, int[] in, int preStart, int inStart, int inEnd){ 
+        for(int i = preStart; i < pre.length; i++){
+            if(inRange(in, inStart, inEnd, pre[i])){
+                TreeNode root = new TreeNode(pre[i]);
+                int index = findIndex(in, pre[i]);
+                root.setLeft(buildChild(pre, in, i+1, inStart , index));
+                root.setRight(buildChild(pre, in, i+1, index, inEnd));
+                return root;
             }
-            pointer++;
         }
         return null;
     }
-    
-    public static TreeNode buildRight(int[] pre, int[] in, int preIndex, int inIndex){
-        int pointer = preIndex;
-        while(pointer < pre.length - 1){
-            if(checkValidLocation(in, inIndex, in.length, pre[pointer + 1])){
-                TreeNode node = new TreeNode(pre[pointer + 1]);
-                int newIn = -1;
-                for(int i = inIndex; i < in.length; i++){
-                    if(pre[pointer + 1] == in[i]){
-                        newIn = i;
-                        break;
-                    }
-                }
-                node.setLeft(buildLeft(pre, in, pointer + 1, newIn));
-                node.setRight(buildRight(pre, in, pointer + 1, newIn));              
-                return node;
-            }
-            pointer++;
-        }
-        return null;
-    }
-    
-    public static boolean checkValidLocation(int[] array, int start, int end, int value){
+     
+    public static boolean inRange(int[] arr, int start, int end, int val){
         for(int i = start; i < end; i++){
-            if(array[i] == value){
+            if(arr[i] == val){
                 return true;
             }
         }
         return false;
+    }
+    
+    public static int findIndex(int[] arr, int val){
+        for(int i = 0; i < arr.length; i++){
+            if(arr[i] == val){
+                return i;
+            }
+        }
+        return -1;
     }
     
     //checks if the binary is complete or not

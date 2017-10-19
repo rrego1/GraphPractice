@@ -1,1 +1,1 @@
-adding an extra right node to everything
+not adding the final row of nodes
