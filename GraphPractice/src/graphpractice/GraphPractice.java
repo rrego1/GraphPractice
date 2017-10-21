@@ -28,6 +28,7 @@ public class GraphPractice {
         System.out.println("max depth: " + maxDepth(graph));
         System.out.println("num children: " + numChildren(graph));
         System.out.println("is full: " + isFull(graph));
+        System.out.println("is complete: " + isComplete(graph));
         
     }
     
@@ -93,7 +94,6 @@ public class GraphPractice {
     
     //checks if the graph is a connected graph
     public static boolean isConnected(int [][] graph){
-       
         return false;
     }
     
@@ -177,7 +177,48 @@ public class GraphPractice {
     
     //checks if the binary is complete or not
     public static boolean isComplete(TreeNode root){
-        return false;
+        int depth = maxDepth(root);
+        ArrayList<TreeNode> row = new ArrayList();
+        row.add(root);
+        row = getRow(row, depth - 1);
+        int nodes = row.size();
+        if(nodes != (int) Math.pow(2, depth -1)){
+            return false;
+        }
+        boolean childMissing = false;
+        for(TreeNode node : row){
+           if(childMissing){
+               if(node.getLeft() != null || node.getRight() != null){
+                   return false;
+               }
+           }else{
+               if(node.getLeft() == null || node.getRight() == null){
+                   childMissing = true;
+                   if(node.getRight() != null && node.getLeft() == null){
+                       return false;
+                   }
+               }
+           } 
+        }
+        return true;
+    }
+    
+    
+    public static ArrayList<TreeNode> getRow(ArrayList<TreeNode> row, int depth){     
+       if(depth == 0){
+           return row;
+       }else{
+           ArrayList<TreeNode> next = new ArrayList();
+           for(TreeNode node : row){
+                if(node.getLeft() != null){
+                    next.add(node.getLeft());
+                }
+                 if(node.getRight() != null){
+                    next.add(node.getRight());
+                }
+           }
+           return getRow(next, depth - 1);
+       }
     }
     
     //checks if the binary tree is full or not
@@ -201,10 +242,16 @@ public class GraphPractice {
             return 0;
         }else{
             if(root.getLeft() == null && root.getRight() == null){
-                return 1;
+                return 0;
             }else{
-                int left = 1 + maxDepth(root.getLeft());
-                int right = 1 + maxDepth(root.getRight());
+                int left = 0;
+                int right = 0;
+                if(root.getLeft() != null){
+                    left = 1 + maxDepth(root.getLeft());
+                }
+                if(root.getRight() != null){
+                    right = 1 + maxDepth(root.getRight());
+                }
                 if(left > right){
                     return left;
                 }else{
