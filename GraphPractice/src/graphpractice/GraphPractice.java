@@ -24,11 +24,13 @@ public class GraphPractice {
     public static void main(String[] args) {
         
         //ArrayList<Node> graph = createAdjacencyList("graph.txt");
-        TreeNode graph = createBinaryTree("graph.txt");
+        TreeNode graph = createBinaryTree("binary_tree.txt");
+        int[][] matrix = createAdjacencyMatrix("graph.txt");
         System.out.println("max depth: " + maxDepth(graph));
         System.out.println("num children: " + numChildren(graph));
         System.out.println("is full: " + isFull(graph));
         System.out.println("is complete: " + isComplete(graph));
+        System.out.println("is connected: " + isConnected(matrix));
         
     }
     
@@ -94,8 +96,45 @@ public class GraphPractice {
     
     //checks if the graph is a connected graph
     public static boolean isConnected(int [][] graph){
-        return false;
+        ArrayList verticesFound = new ArrayList();
+        ArrayList verticesSearched = new ArrayList();
+        ArrayList connections = findConnectedVertices(graph, 0);
+        verticesFound.add(0);
+        verticesSearched.add(0);
+        for(Object vertex : connections){
+            if(!verticesFound.contains(vertex)){
+                verticesFound.add(vertex);
+            }
+        }
+        for(int i = 0; i < verticesFound.size(); i++){
+            if(!verticesSearched.contains(verticesFound.get(i))){
+                connections = findConnectedVertices(graph, (int) verticesFound.get(i));
+                verticesSearched.add(verticesFound.get(i));
+            }
+            for(Object vertex : connections){
+                if(!verticesFound.contains(vertex)){
+                    verticesFound.add(vertex);
+                }
+            }
+        }
+        
+        if(verticesFound.size() == graph[0].length){
+            return true;
+        }else{
+            return false;
+        }
     }
+    
+    public static ArrayList findConnectedVertices(int[][] graph, int vertex){
+        ArrayList connections = new ArrayList();
+        for(int i = 0; i < graph[0].length; i++){
+            if(graph[vertex][i] == 1){
+                connections.add(i);
+            }
+        }
+        return connections;
+    }
+    
     
     //creates a binary tree from a file
     //first line is the graph in pre order
